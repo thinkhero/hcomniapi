@@ -31,7 +31,7 @@ def categories():
                 'status' : 'OK',
                 'categories' : data
                 }
-
+    print("properties_service:categories",response)
     return jsonify(response)
 
 @app.route('/subcategories', methods=['POST'])
@@ -103,6 +103,7 @@ def getpropnamelist(refresh=False):
     #cache property list for 60min
     lSet(ckey,json.dumps(response))
     lExpire(ckey,3600)
+  print("properties_service:getpropnamelist",response)
   return response
 
 

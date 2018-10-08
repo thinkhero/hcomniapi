@@ -390,12 +390,14 @@ def getrecenttxpages(page=1):
       pnl=getpropnamelist()
       if len(ROWS) > 0:
         for d in ROWS:
+          print d[0], type(d[0])
           res = addName(d[0],pnl)
           try:
             res['confirmations'] = cblock - res['block'] + 1
           except:
             pass
           #if cblock hasn't caught up make sure we don't return negative weirdness
+	  #print "res['confirmations']",res['confirmations']
           if res['confirmations'] < 0:
             res['confirmations'] = 0
           data.append(res)
@@ -833,6 +835,7 @@ def addName(txjson, list):
   try:
     type=txjson['type_int']
   except:
+    print "*" * 20
     try:
       type=get_TxType(txjson['type'])
     except:

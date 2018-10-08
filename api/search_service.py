@@ -21,8 +21,10 @@ def search():
       return jsonify({ 'status': 400, 'data': 'Invalid/No query found in request' })
 
   ckey="data:search:"+str(query)
+  print "ckey",ckey
   try:
     response = json.loads(lGet(ckey))
+    print("redis-response:",response)
     print_debug(("cache looked success",ckey),7)
   except:
     print_debug(("cache looked failed",ckey),7)
@@ -32,10 +34,10 @@ def search():
 
 
     if query.isdigit():
-      if int(query) == 1:
-        asset=dbSelect("select PropertyID, propertyname,Issuer,flags from smartproperties where ecosystem='Production' and protocol='Omni' order by propertyid")
-      elif int(query) == 2:
+      if int(query) == 2:
         asset=dbSelect("select PropertyID, propertyname,Issuer,flags from smartproperties where ecosystem='Test' and protocol='Omni' order by propertyid")
+      elif int(query) == 1:
+        asset=dbSelect("select PropertyID, propertyname,Issuer,flags from smartproperties where ecosystem='Production' and protocol='Omni' order by propertyid")
       else:
         asset=dbSelect("select PropertyID, propertyname,Issuer,flags from smartproperties where PropertyID = %s and protocol='Omni' order by propertyid limit 10",[str(query)])
     else:
@@ -51,7 +53,7 @@ def search():
     #cache for 5 min
     lSet(ckey,json.dumps(response))
     lExpire(ckey,300)
-
+  print("before return response",response)
   return jsonify(response)
 
 

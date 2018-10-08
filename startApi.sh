@@ -18,7 +18,6 @@ echo "Establishing environment variables..."
 APPDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 LOGDIR=$APPDIR/logs
 LOCK_FILE=$APPDIR/omniapi.lock
-
 # Export directories for API scripts to use
 export LOGDIR
 
@@ -47,7 +46,7 @@ do
       else
         echo "Starting uwsgi daemon..."
         cd $APPDIR/api
-        uwsgi -s 127.0.0.1:1088 -p 10 -M --vhost --enable-threads --log-x-forwarded-for --logto $LOGDIR/apps.log --pidfile /tmp/omniapi.pid --stats /tmp/stats.socket &
+        uwsgi -s 0.0.0.0:1088 -p 10 -M --vhost --enable-threads --log-x-forwarded-for --logto $LOGDIR/apps.log --pidfile /tmp/omniapi.pid --stats /tmp/stats.socket &
         #get snapshot of directory files
         APISHA=`ls -lR $APPDIR/api/*.py | sha1sum`
     fi
