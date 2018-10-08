@@ -261,7 +261,7 @@ def getpagecounttxjson(limit=10):
     print_debug(("cache looked success",ckey),7)
   except:
     print_debug(("cache looked failed",ckey),7)
-    ROWS=dbSelect("select max(id) from txjson;")
+    ROWS=dbSelect("select count(id) from txjson;")
     count=int(ROWS[0][0])
     #cache 10 min
     lSet(ckey,count)
