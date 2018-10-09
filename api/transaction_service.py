@@ -524,10 +524,6 @@ def gettxjson(hash_id):
         txJson['type_int']=-22
     except:
       pass
-    try:
-      txJson['confirmations'] = cblock - txJson['block'] + 1
-    except:
-      pass
 
     try:
       #if cblock hasn't caught up make sure we don't return negative weirdness
