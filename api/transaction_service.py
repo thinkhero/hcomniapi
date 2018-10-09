@@ -204,12 +204,6 @@ def getaddresshistraw(address,page):
       lSet(ckey,json.dumps(txlist))
       lExpire(ckey,420)
 
-    try:
-      for tx in txlist:
-        tx['confirmations'] = cblock - tx['block'] + 1
-    except:
-      pass
-
     cachetxs(txlist)
     response = { 'address': address, 'transactions': txlist , 'pages': pcount, 'current_page': page }
 
@@ -392,10 +386,6 @@ def getrecenttxpages(page=1):
         for d in ROWS:
           print d[0], type(d[0])
           res = addName(d[0],pnl)
-          try:
-            res['confirmations'] = cblock - res['block'] + 1
-          except:
-            pass
           #if cblock hasn't caught up make sure we don't return negative weirdness
 	  #print "res['confirmations']",res['confirmations']
           if res['confirmations'] < 0:
