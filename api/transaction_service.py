@@ -509,6 +509,11 @@ def gettxjson(hash_id):
             txJson['blocktime']=int(blk_time[0][0])
           except: 
             pass
+        try:
+          txJson['confirmations'] = cblock - (txJson['block'] - txJson['confirmations'])
+        except:
+          pass
+
       lSet(ckey,json.dumps(txJson))
       try:
         #check if tx is unconfirmed and expire cache after 5 min if it is otherwise 4 weeks
@@ -524,11 +529,7 @@ def gettxjson(hash_id):
         txJson['type_int']=-22
     except:
       pass
-    try:
-      txJson['confirmations'] = cblock - (txJson['block'] - txJson['confirmations'])
-    except:
-      pass
-
+    
     try:
       #if cblock hasn't caught up make sure we don't return negative weirdness
       if txJson['confirmations'] < 0:
