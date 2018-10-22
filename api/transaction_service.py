@@ -206,7 +206,8 @@ def getaddresshistraw(address,page):
 
     try:
       for tx in txlist:
-        tx['confirmations'] = cblock - (tx['block'] - tx['confirmations'])
+        tx['block'] = tx['block'] - tx['confirmations'] + 1
+        tx['confirmations'] = cblock - tx['block']
     except:
       pass
 
@@ -393,7 +394,8 @@ def getrecenttxpages(page=1):
           print d[0], type(d[0])
           res = addName(d[0],pnl)
           try:
-            res['confirmations'] = cblock - (res['block'] - res['confirmations'])
+            res['block'] = res['block'] - res['confirmations'] + 1
+            res['confirmations'] = cblock - res['block']
           except:
             pass
           #if cblock hasn't caught up make sure we don't return negative weirdness
@@ -510,7 +512,8 @@ def gettxjson(hash_id):
           except: 
             pass
         try:
-          txJson['confirmations'] = cblock - (txJson['block'] - txJson['confirmations'])
+          txJson['block'] = txJson['block'] - txJson['confirmations'] + 1
+          txJson['confirmations'] = cblock - txJson['block']
         except:
           pass
 
