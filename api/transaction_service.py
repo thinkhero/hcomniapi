@@ -147,6 +147,7 @@ def getaddresshistraw(address,page):
       page=1
 
     pcount=getaddresstxcount(address)
+    print ">>> pcount",pcount
     adjpage=page
     adjpage-=1
     if adjpage<0:
@@ -275,6 +276,7 @@ def getpagecounttxjson(limit=10):
   return ret
 
 def getaddresstxcount(address,limit=10):
+  print "+++ getaddresstxcount",address
   ckey="info:addr:"+str(address)+":pcount"
   try:
     rc = lGet(ckey)
@@ -285,7 +287,8 @@ def getaddresstxcount(address,limit=10):
     print_debug(("cache looked success",ckey),7)
   except:
     print_debug(("cache looked failed",ckey),7)
-    ROWS=dbSelect("select txcount from addressstats where address=%s",[address])
+    #ROWS=dbSelect("select txcount from addressstats where address=%s",[address])
+    ROWS=dbSelect("select count(distinct txdbserialnum) from addressesintxs where address=%s;",[address])
     PROWS=dbSelect("select count(*) from (select distinct txdbserialnum from addressesintxs where address=%s and txdbserialnum<0) as temp;",[address])
     try:
       lc=int(ROWS[0][0])
