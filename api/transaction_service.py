@@ -848,8 +848,11 @@ def addName(txjson, list):
     except:
       type=-1
   if type in[0,3,20,22,53,55,56,70,185,186]:
-    txjson['propertyname']=list[str(txjson['propertyid'])]['name']
-    txjson['flags']=list[str(txjson['propertyid'])]['flags']
+    try:
+      txjson['propertyname']=list[str(txjson['propertyid'])]['name']
+      txjson['flags']=list[str(txjson['propertyid'])]['flags']
+    except Exception as e:
+      print e
   elif type==4:
     if 'subsends' in txjson:
       for ss in txjson['subsends']:

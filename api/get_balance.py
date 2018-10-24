@@ -19,7 +19,8 @@ app.debug = True
 @ratelimit(limit=20, per=60)
 def get_balance_response():
   request_dict=request.form
-  print_debug(("get_balance_response(request_dict)",request_dict),4)
+  print ">>>>>>>>>>"
+  print_debug(("get_balance_response(request_dict)",request_dict),0)
 
   try:
       addrs_list=request_dict['addr']
