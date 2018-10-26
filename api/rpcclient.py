@@ -6,8 +6,8 @@ class RPCHost():
         USER=getpass.getuser()
         self._session = requests.Session()
         try:
-            with open('/home/xu/.bitcoin/bitcoin.conf') as fp:
-                RPCPORT="8332"
+            with open('/home/'+USER+'/.hcwallet/omni.conf') as fp:
+                RPCPORT="12010"
                 RPCHOST="localhost"
                 RPCSSL=False
                 for line in fp:
