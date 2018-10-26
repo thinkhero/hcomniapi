@@ -189,4 +189,6 @@ def createrawtx_reference(destination, rawtx=None):
     return host.call("omni_createrawtx_reference", rawtx, destination, 0.00000546)
 def createrawtx_change(rawtx, previnputs, destination, fee):
     return host.call("omni_createrawtx_change", rawtx, previnputs, destination, fee)
- 
+
+def getallbalancesforaddress(addr):
+    return host.call("omni_getallbalancesforaddress", addr) 

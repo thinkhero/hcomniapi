@@ -123,11 +123,24 @@ def bc_getbalance(address):
     if balance['error']:
       raise LookupError("Not cached")
   except Exception as e:
-    balance = bc_getbalance_bitgo(address)
+    #balance = bc_getbalance_bitgo(address)
+    balance = bc_getbalance_explorer(address)
     #cache btc balance for 2.5 minutes
     rSet("omniwallet:balances:address:"+str(address),json.dumps(balance))
     rExpire("omniwallet:balances:address:"+str(address),expTime)
   return balance
+
+def bc_getbalance_explorer(address):
+  try:
+    url = 'https://testnet-explorer.h.cash/explorer/balance?addr='
+    r = requests.get(url+address,verify=False)
+    if r.status_code == 200:
+      balance = r.json()['TotalUnspent']
+    else:
+      balance = 0
+  except Exception as e:
+    print e
+  return {"bal":balance,"error":None}
 
 def bc_getbalance_bitgo(address):
   try:
