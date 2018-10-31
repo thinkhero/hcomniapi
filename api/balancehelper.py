@@ -33,9 +33,9 @@ def get_balancedata_db_ROWS(addr):
                      order by f1.propertyid""",(addr,addr))
 def get_balancedata_rpc_ROWS(addr):
   print "---------------------"
-  print getallbalancesforaddress(addr)['result']
+  print getallbalancesforaddress(addr)
   print "------------------------"
-  return getallbalancesforaddress(addr)['result']
+  return getallbalancesforaddress(addr)
 
 def get_balancedata1(address):
     print ">>> enter into get_balancedata",address

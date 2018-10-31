@@ -191,4 +191,32 @@ def createrawtx_change(rawtx, previnputs, destination, fee):
     return host.call("omni_createrawtx_change", rawtx, previnputs, destination, fee)
 
 def getallbalancesforaddress(addr):
-    return host.call("omni_getallbalancesforaddress", addr) 
+    #return host.call("omni_getallbalancesforaddress", addr)
+    payload = json.dumps({"method": "omni_getallbalancesforaddress", "params": [addr], "jsonrpc": "2.0"})
+    print payload,"123"
+    tries = 10
+    hadConnectionFailures = False
+    while True:
+        try:
+            response = host._session.post(host._url,headers=host._headers,data=payload,verify=False)
+        except requests.exceptions.ConnectionError:
+            tries -= 1
+            if tries == 0:
+                raise Exception('Failed to connect for remote procedure call.')
+            hadConnectionFailures = True
+            print("Couldn't connect for remote procedure call, will sleep for ten seconds and then try again ({} more tries)".format(tries))
+            time.sleep(10)
+        else:
+            if hadConnectionFailures:
+                print('Connected for remote procedure call after retry.')
+            break
+    if not response.status_code in (200, 500):
+        raise Exception('RPC connection failure: ' + str(response.status_code) + ' ' + response.reason)
+    responseJSON = response.json()
+    print ">>"* 20,"responseJSON"
+    print responseJSON
+    if 'error' in responseJSON and responseJSON['error'] != None:
+        if responseJSON['error']['message'] == 'No funds in the address':
+            return []
+        raise Exception('Error in ' + 'omni_getallbalancesforaddress' + ' RPC call: ' + str(responseJSON['error']))
+    return responseJSON
