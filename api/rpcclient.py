@@ -217,6 +217,6 @@ def getallbalancesforaddress(addr):
     print responseJSON
     if 'error' in responseJSON and responseJSON['error'] != None:
         if responseJSON['error']['message'] == 'No funds in the address':
-            return []
+            return {'id':None,'result':[],'error':None}
         raise Exception('Error in ' + 'omni_getallbalancesforaddress' + ' RPC call: ' + str(responseJSON['error']))
     return responseJSON
