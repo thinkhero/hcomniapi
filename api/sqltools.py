@@ -6,7 +6,7 @@ def sql_connect():
     global con
     USER=getpass.getuser()
     try:
-      with open('/home/'+USER+'/.hcwallet/omni.conf') as fp:
+      with open('/home/'+USER+'/.hcomniwallet/omni.conf') as fp:
         DBPORT="5432"
         for line in fp:
           #print line

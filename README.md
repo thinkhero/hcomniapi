@@ -18,7 +18,7 @@ Install python pip and the python packages from pip
 ## Config files needed
 To connect to and use the omnicored client define the following file with the following structure.
 ```
-cat ~/.hcwallet/omni.conf
+cat ~/.hcomniwallet/omni.conf
 rpcuser=
 rpcpassword=
 rpcport=
@@ -27,7 +27,7 @@ rpcconnect=<ip address of host, only needed if not localhost>
 
 To connect to the database define the following file with the following structure:
 ```
-cat ~/.hcwallet/omni.conf
+cat ~/.hcomniwallet/omni.conf
 sqluser=
 sqlport=
 sqlconnect=
