@@ -33,9 +33,9 @@ def get_balancedata_db_ROWS(addr):
                      order by f1.propertyid""",(addr,addr))
 def get_balancedata_rpc_ROWS(addr):
   print "---------------------"
-  print getallbalancesforaddress(addr)['result']
+  print getallbalancesforaddress(addr)
   print "------------------------"
-  return getallbalancesforaddress(addr)['result']
+  return getallbalancesforaddress(addr)
 
 def get_balancedata1(address):
     print ">>> enter into get_balancedata",address
@@ -125,14 +125,15 @@ def get_balancedata(address):
     print ">>> enter into get_balancedata",address
     addr = re.sub(r'\W+', '', address) #check alphanumeric
     #ROWS = get_balancedata_db_ROWS(address)
-    ROWS = get_balancedata_rpc_ROWS(address)
+    ROWS = get_balancedata_rpc_ROWS(address)['result']
     print ">>>>>>>>>>>>>>>>>>>>>>"
-    print ROWS
+    print "ROWS:",ROWS
     balance_data = { 'balance': [] }
     ret = bc_getbalance(addr)
     out = ret['bal']
     err = ret['error']
     for balrow in ROWS:
+	print "balrow:",balrow
         cID = str(int(balrow['propertyid'])) #currency id
         sym_t = ('BTC' if cID == '0' else ('OMNI' if cID == '1' else ('T-OMNI' if cID == '2' else 'SP' + cID) ) ) #symbol template
         #1 = new indivisible property, 2=new divisible property (per spec)
